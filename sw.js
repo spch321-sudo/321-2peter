@@ -1,4 +1,30 @@
-var V='37afce7df681';var C='321-2pe-'+V;
-self.addEventListener('install',function(e){self.skipWaiting();e.waitUntil(caches.open(C).then(function(c){return c.addAll(['./','./index.html','./sc.html','./manifest.webmanifest','./icon-192.png','./icon-512.png']);}));});
-self.addEventListener('activate',function(e){e.waitUntil(caches.keys().then(function(ks){return Promise.all(ks.filter(function(k){return k!==C;}).map(function(k){return caches.delete(k);}));}).then(function(){return self.clients.claim();}));});
-self.addEventListener('fetch',function(e){if(e.request.method!=='GET')return;e.respondWith(fetch(e.request).then(function(r){var c2=r.clone();caches.open(C).then(function(c){c.put(e.request,c2);});return r;}).catch(function(){return caches.match(e.request).then(function(m){return m||caches.match('./index.html');});}));});
+/* 321彼得後書講義 · Service Worker（離線可用）
+   版本字串在每次 make_site.py 重新打包時都會變，
+   一變就會清掉舊快取、重新抓一份新的，使用者不必手動清除。 */
+const V = '彼得後書-1e6728302569';
+const SHELL = [
+  './', './index.html', './manifest.webmanifest',
+  './icon-192.png', './icon-512.png',
+  './icon-180.png', './icon-167.png',
+  './icon-152.png', './icon-120.png',
+  './icon-64.png', './favicon.ico',
+];
+self.addEventListener('install', e => {
+  self.skipWaiting();
+  e.waitUntil(caches.open(V).then(c => c.addAll(SHELL)).catch(() => {}));
+});
+self.addEventListener('activate', e => {
+  e.waitUntil(caches.keys().then(ks =>
+    Promise.all(ks.filter(k => k !== V).map(k => caches.delete(k)))
+  ).then(() => self.clients.claim()));
+});
+self.addEventListener('fetch', e => {
+  if (e.request.method !== 'GET') return;
+  e.respondWith(
+    fetch(e.request).then(r => {
+      const cp = r.clone();
+      caches.open(V).then(c => c.put(e.request, cp)).catch(() => {});
+      return r;
+    }).catch(() => caches.match(e.request).then(r => r || caches.match('./index.html')))
+  );
+});
