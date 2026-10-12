@@ -1,7 +1,7 @@
 /* 321彼得後書講義 · Service Worker（離線可用）
    版本字串在每次 make_site.py 重新打包時都會變，
    一變就會清掉舊快取、重新抓一份新的，使用者不必手動清除。 */
-const V = '彼得後書-1e6728302569';
+const V = '彼得後書-587114e4cb95';
 const SHELL = [
   './', './index.html', './manifest.webmanifest',
   './icon-192.png', './icon-512.png',
