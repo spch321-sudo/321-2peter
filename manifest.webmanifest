@@ -1,12 +1,12 @@
 {
- "name": "321彼得后书讲义",
- "short_name": "321彼得后书讲义",
+ "name": "321彼得後書講義",
+ "short_name": "321彼得後書講義",
  "start_url": "./index.html",
  "scope": "./",
  "display": "standalone",
  "background_color": "#051434",
  "theme_color": "#0E2C64",
- "lang": "zh-Hans",
+ "lang": "zh-Hant",
  "icons": [
   {
    "src": "./icon-192.png",
